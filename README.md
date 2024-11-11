@@ -25,10 +25,12 @@ This approach utilizes separate LSTM models for each task. The following steps a
         - Employs a linear layer and a dropout layer for classification.
         - Defines a cross-entropy loss function with an ignore index for padding.
         - Calculates F1 scores using a custom function to evaluate performance.
+        - Performs word-level classification.
     - **Task B (Aspect Term Polarity Classification):**
         - Follows a similar LSTM architecture as task A.
         - Adapts the linear layers and output classes based on the polarity labels.
         - Uses a separate cross-entropy loss function and F1 score calculation.
+        - Conducts sentence-level classification, focusing on one keyword per sentence.
 
 4. **Training:**
     - Trains the models using PyTorch Lightning, enabling efficient training and logging.
@@ -56,10 +58,12 @@ This approach uses a single BERT model to perform both task A and task B within 
         - Takes the BERT output as input.
         - Applies an LSTM layer to capture sequential information.
         - Uses a linear layer to project the LSTM output to the number of classes for task A.
+        - Performs word-level classification. 
     - **LSTM for Task B:**
         - Concatenates the BERT output with the predicted keyword positions from task A.
         - Processes this combined input through another LSTM layer.
         - Uses a linear layer and dropout for task B classification.
+        - Executes word-level classification, masking the output based on the keyword positions predicted in Task A.
 
 4. **Training:**
     - Trains the BERT model with PyTorch Lightning, efficiently handling multi-task learning.
